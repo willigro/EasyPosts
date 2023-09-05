@@ -4,9 +4,9 @@ import com.easytecno.myapplication.datasource.network.Post;
 
 import java.util.List;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 
 public interface PostRepository {
-    Call<List<Post>> fetchPosts();
+    Observable<List<Post>> fetchPosts();
 }
 

@@ -1,15 +1,22 @@
 package com.easytecno.myapplication.datasource.network;
 
+import androidx.annotation.Nullable;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import com.easytecno.myapplication.datasource.room.config.TableDao;
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = TableDao.TABLE)
 public class Post {
-    @SerializedName("userId")
-    public int userId;
-    @SerializedName("id")
+    @PrimaryKey
+    @SerializedName(TableDao.ID)
     public int id;
-    @SerializedName("title")
+    @SerializedName(TableDao.USER_ID)
+    public int userId;
+    @SerializedName(TableDao.TITLE)
     public String title;
-    @SerializedName("body")
+    @SerializedName(TableDao.BODY)
     public String body;
 
     public Post(int userId, int id, String title, String body) {

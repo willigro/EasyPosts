@@ -1,6 +1,7 @@
 package com.easytecno.myapplication.repository.di;
 
 import com.easytecno.myapplication.datasource.network.PostApi;
+import com.easytecno.myapplication.datasource.room.dao.PostDao;
 import com.easytecno.myapplication.repository.post.PostRepository;
 import com.easytecno.myapplication.repository.post.PostRepositoryImpl;
 
@@ -14,7 +15,7 @@ import dagger.hilt.components.SingletonComponent;
 public class RepositoryModule {
 
     @Provides
-    PostRepository providesPostRepository(PostApi postApi) {
-        return new PostRepositoryImpl(postApi);
+    PostRepository providesPostRepository(PostApi postApi, PostDao postDao) {
+        return new PostRepositoryImpl(postApi, postDao);
     }
 }

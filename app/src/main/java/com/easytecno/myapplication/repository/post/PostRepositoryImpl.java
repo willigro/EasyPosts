@@ -1,29 +1,38 @@
 package com.easytecno.myapplication.repository.post;
 
-import android.util.Log;
-
 import com.easytecno.myapplication.datasource.network.Post;
 import com.easytecno.myapplication.datasource.network.PostApi;
+import com.easytecno.myapplication.datasource.room.dao.PostDao;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 
 public class PostRepositoryImpl implements PostRepository {
 
-    private PostApi postApi;
+    private final PostApi postApi;
+    private final PostDao postDao;
 
     @Inject
-    public PostRepositoryImpl(PostApi postApi) {
+    public PostRepositoryImpl(PostApi postApi, PostDao postDao) {
         this.postApi = postApi;
+        this.postDao = postDao;
     }
 
     @Override
-    public Call<List<Post>> fetchPosts() {
-        return postApi.getMyData();
+    public Observable<List<Post>> fetchPosts() {
+            return postDao.fetchPostsDistinct()
+                    .flatMap(cachedData -> {
+                        if (cachedData != null && !cachedData.isEmpty()) {
+                            return Observable.just(cachedData);
+                        } else {
+                            return postApi.fetchPosts()
+                                    .subscribeOn(Schedulers.io())
+                                    .doOnNext(postDao::insert);
+                        }
+                    });
     }
 }

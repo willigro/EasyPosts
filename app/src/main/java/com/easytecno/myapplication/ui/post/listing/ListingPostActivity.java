@@ -1,10 +1,12 @@
 package com.easytecno.myapplication.ui.post.listing;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.easytecno.myapplication.R;
 import com.easytecno.myapplication.controller.ListingPostController;
+import com.easytecno.myapplication.controller.ListingPostControllerResult;
 import com.easytecno.myapplication.databinding.ActivityListingPostBinding;
 import com.easytecno.myapplication.datasource.network.Post;
 import com.easytecno.myapplication.ui.binding.BaseBindingActivity;
@@ -15,6 +17,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 @AndroidEntryPoint
 public class ListingPostActivity extends BaseBindingActivity<ActivityListingPostBinding> {
@@ -37,7 +42,22 @@ public class ListingPostActivity extends BaseBindingActivity<ActivityListingPost
     // TODO handle errors
     private void fetchPosts() {
         binding.listingPostProgress.setVisibility(View.VISIBLE);
-        postController.fetchPosts(this::createPostAdapter);
+        CompositeDisposable cd = new CompositeDisposable();
+
+        Disposable subscribe = postController.fetchPosts()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        data -> {
+                            Log.d("TAGGING", String.valueOf(data.size()));
+                            createPostAdapter(data);
+                        },
+                        throwable -> {
+                            Log.d("TAGGING", "Error " + throwable.getMessage());
+                            // Handle errors
+                        }
+                );
+
+        cd.add(subscribe);
     }
 
     private void createPostAdapter(List<Post> list) {
