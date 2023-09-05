@@ -9,6 +9,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class PostRepositoryImpl implements PostRepository {
@@ -24,15 +25,28 @@ public class PostRepositoryImpl implements PostRepository {
 
     @Override
     public Observable<List<Post>> fetchPosts() {
-            return postDao.fetchPostsDistinct()
-                    .flatMap(cachedData -> {
-                        if (cachedData != null && !cachedData.isEmpty()) {
-                            return Observable.just(cachedData);
-                        } else {
-                            return postApi.fetchPosts()
-                                    .subscribeOn(Schedulers.io())
-                                    .doOnNext(postDao::insert);
+        return postDao.fetchPostsDistinct()
+                .flatMap(cachedData -> {
+                    if (cachedData != null && !cachedData.isEmpty()) {
+                        return Observable.just(cachedData);
+                    } else {
+                        return postApi.fetchPosts()
+                                .subscribeOn(Schedulers.io())
+                                .doOnNext(postDao::insert);
+                    }
+                });
+    }
+
+    @Override
+    public void deletePost(Post post) {
+        Observable.create(
+                        emitter -> {
+                            postDao.delete(post);
+                            emitter.onComplete();
                         }
-                    });
+                )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
     }
 }

@@ -1,6 +1,7 @@
 package com.easytecno.myapplication.datasource.room.dao;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -19,6 +20,9 @@ public interface PostDao {
 
     @Query("SELECT * FROM tb_post;")
     Observable<List<Post>> fetchPosts();
+
+    @Delete
+    void delete(Post post);
 
     // TODO Called again after insert, didn't need to, but it is fine now
     default Observable<List<Post>> fetchPostsDistinct() {

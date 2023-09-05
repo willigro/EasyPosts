@@ -21,4 +21,8 @@ public class ListingPostController {
     public Observable<List<Post>> fetchPosts() {
         return postRepository.fetchPosts();
     }
+
+    public void deletePost(Post post) {
+        postRepository.deletePost(post);
+    }
 }

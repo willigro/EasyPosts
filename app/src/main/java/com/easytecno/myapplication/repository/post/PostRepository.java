@@ -8,5 +8,7 @@ import io.reactivex.Observable;
 
 public interface PostRepository {
     Observable<List<Post>> fetchPosts();
+
+    void deletePost(Post post);
 }
 

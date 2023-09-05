@@ -41,6 +41,9 @@ public class RecyclerPostAdapter extends RecyclerView.Adapter<RecyclerPostAdapte
         holder.stub.setOnClickListener(
                 v -> listener.onItemClick(post.body)
         );
+        holder.deleteButton.setOnClickListener(
+                v -> listener.onDeleteClick(post)
+        );
     }
 
     @Override
@@ -50,11 +53,12 @@ public class RecyclerPostAdapter extends RecyclerView.Adapter<RecyclerPostAdapte
 
     static class ViewHolderPost extends RecyclerView.ViewHolder {
 
-        TextView stub;
+        TextView stub, deleteButton;
 
         public ViewHolderPost(@NonNull View itemView) {
             super(itemView);
             stub = itemView.findViewById(R.id.adapter_recycler_listing_post_stub_text);
+            deleteButton = itemView.findViewById(R.id.adapter_recycler_listing_post_delete);
         }
     }
 }
