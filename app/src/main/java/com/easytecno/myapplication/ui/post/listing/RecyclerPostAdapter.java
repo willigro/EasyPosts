@@ -9,15 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.easytecno.myapplication.R;
+import com.easytecno.myapplication.datasource.network.Post;
 
 import java.util.List;
 
 public class RecyclerPostAdapter extends RecyclerView.Adapter<RecyclerPostAdapter.ViewHolderPost> {
 
-    List<String> mPostList;
+    List<Post> mPostList;
     RecyclerViewItemClickListener listener;
 
-    public RecyclerPostAdapter(List<String> list, RecyclerViewItemClickListener listener) {
+    public RecyclerPostAdapter(List<Post> list, RecyclerViewItemClickListener listener) {
         this.mPostList = list;
         this.listener = listener;
     }
@@ -34,11 +35,11 @@ public class RecyclerPostAdapter extends RecyclerView.Adapter<RecyclerPostAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderPost holder, int position) {
-        final String item = mPostList.get(holder.getAdapterPosition());
+        final Post post = mPostList.get(holder.getAdapterPosition());
 
-        holder.stub.setText(item);
+        holder.stub.setText(post.title);
         holder.stub.setOnClickListener(
-                v -> listener.onItemClick(item)
+                v -> listener.onItemClick(post.body)
         );
     }
 
