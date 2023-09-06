@@ -5,7 +5,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.easytecno.myapplication.R;
-import com.easytecno.myapplication.controller.ListingPostController;
+import com.easytecno.myapplication.controller.listing.ListingPostController;
 import com.easytecno.myapplication.databinding.ActivityListingPostBinding;
 import com.easytecno.myapplication.datasource.network.Post;
 import com.easytecno.myapplication.ui.binding.BaseBindingActivity;
@@ -64,8 +64,8 @@ public class ListingPostActivity extends BaseBindingActivity<ActivityListingPost
                 list,
                 new RecyclerViewItemClickListener() {
                     @Override
-                    public void onItemClick(String item) {
-                        startActivity(PostDetailsActivity.getIntent(ListingPostActivity.this, item));
+                    public void onItemClick(Post post) {
+                        startActivity(PostDetailsActivity.getIntent(ListingPostActivity.this, post));
                     }
 
                     @Override

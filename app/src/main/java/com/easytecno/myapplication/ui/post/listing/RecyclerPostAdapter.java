@@ -39,7 +39,7 @@ public class RecyclerPostAdapter extends RecyclerView.Adapter<RecyclerPostAdapte
 
         holder.stub.setText(post.title);
         holder.stub.setOnClickListener(
-                v -> listener.onItemClick(post.body)
+                v -> listener.onItemClick(post)
         );
         holder.deleteButton.setOnClickListener(
                 v -> listener.onDeleteClick(post)

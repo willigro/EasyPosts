@@ -5,6 +5,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.easytecno.myapplication.datasource.network.Post;
 
@@ -28,4 +29,7 @@ public interface PostDao {
     default Observable<List<Post>> fetchPostsDistinct() {
         return fetchPosts().distinctUntilChanged();
     }
+
+    @Update
+    void update(Post post);
 }

@@ -38,10 +38,23 @@ public class PostRepositoryImpl implements PostRepository {
     }
 
     @Override
-    public void deletePost(Post post) {
+    public void delete(Post post) {
         Observable.create(
                         emitter -> {
                             postDao.delete(post);
+                            emitter.onComplete();
+                        }
+                )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+    }
+
+    @Override
+    public void update(Post post) {
+        Observable.create(
+                        emitter -> {
+                            postDao.update(post);
                             emitter.onComplete();
                         }
                 )

@@ -7,8 +7,10 @@ import androidx.room.PrimaryKey;
 import com.easytecno.myapplication.datasource.room.config.TableDao;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 @Entity(tableName = TableDao.TABLE)
-public class Post {
+public class Post implements Serializable {
     @PrimaryKey
     @SerializedName(TableDao.ID)
     public int id;

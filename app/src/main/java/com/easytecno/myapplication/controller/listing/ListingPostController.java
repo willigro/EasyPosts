@@ -1,4 +1,4 @@
-package com.easytecno.myapplication.controller;
+package com.easytecno.myapplication.controller.listing;
 
 import com.easytecno.myapplication.datasource.network.Post;
 import com.easytecno.myapplication.repository.post.PostRepository;
@@ -23,6 +23,6 @@ public class ListingPostController {
     }
 
     public void deletePost(Post post) {
-        postRepository.deletePost(post);
+        postRepository.delete(post);
     }
 }
