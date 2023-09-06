@@ -1,7 +1,14 @@
 <resources>
     <string name="app_name">My Application</string>
 
+    <!-- Listing -->
+    <string name="post_listing_button_new_post">Novo</string>
+
     <!-- Details -->
     <string name="post_details_title_label">Titulo</string>
     <string name="post_details_body_label">Body</string>
+
+    <!-- Details -->
+    <string name="post_create_title_label">Titulo</string>
+    <string name="post_create_body_label">Body</string>
 </resources>

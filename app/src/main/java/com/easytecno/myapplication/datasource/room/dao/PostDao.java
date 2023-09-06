@@ -19,6 +19,9 @@ public interface PostDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(List<Post> posts);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insert(Post post);
+
     @Query("SELECT * FROM tb_post;")
     Observable<List<Post>> fetchPosts();
 

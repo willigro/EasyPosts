@@ -38,6 +38,19 @@ public class PostRepositoryImpl implements PostRepository {
     }
 
     @Override
+    public Observable<Long> insert(Post post) {
+        return Observable.create(
+                        emitter -> {
+                            long result = postDao.insert(post);
+                            emitter.onNext(result);
+                            emitter.onComplete();
+                        }
+                )
+                .flatMap(result -> Observable.just((Long) result))
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
     public void delete(Post post) {
         Observable.create(
                         emitter -> {
@@ -45,7 +58,7 @@ public class PostRepositoryImpl implements PostRepository {
                             emitter.onComplete();
                         }
                 )
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io()) // TODO move schedulers to DI
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();
     }
