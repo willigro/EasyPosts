@@ -3,20 +3,20 @@ package com.easytecno.myapplication.ui.post.details;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.easytecno.myapplication.R;
 import com.easytecno.myapplication.controller.details.PostDetailsController;
+import com.easytecno.myapplication.databinding.ActivityPostDetailsBinding;
 import com.easytecno.myapplication.datasource.network.Post;
+import com.easytecno.myapplication.ui.binding.BaseBindingActivity;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
+// TODO use fragments to handle update and insert?
 @AndroidEntryPoint
-public class PostDetailsActivity extends AppCompatActivity {
+public class PostDetailsActivity extends BaseBindingActivity<ActivityPostDetailsBinding> {
 
     static private final String INTENT_PARAM_POST = "ipi";
 
@@ -25,10 +25,13 @@ public class PostDetailsActivity extends AppCompatActivity {
     @Inject
     PostDetailsController postDetailsController;
 
+    public PostDetailsActivity() {
+        super(R.layout.activity_post_details);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_details);
 
         mPost = (Post) getIntent().getSerializableExtra(INTENT_PARAM_POST);
 
@@ -36,13 +39,12 @@ public class PostDetailsActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        ((EditText) findViewById(R.id.post_details_title_text)).setText(mPost.title);
-        ((EditText) findViewById(R.id.post_details_body_text)).setText(mPost.body);
-
-        findViewById(R.id.post_details_button_save).setOnClickListener(
+        binding.postDetailsTitleText.setText(mPost.title);
+        binding.postDetailsBodyText.setText(mPost.body);
+        binding.postDetailsButtonSave.setOnClickListener(
                 v -> {
-                    mPost.title = ((EditText) findViewById(R.id.post_details_title_text)).getText().toString();
-                    mPost.body = ((EditText) findViewById(R.id.post_details_body_text)).getText().toString();
+                    mPost.title = binding.postDetailsTitleText.getText().toString();
+                    mPost.body = binding.postDetailsBodyText.getText().toString();
                     postDetailsController.update(
                             mPost
                     );
