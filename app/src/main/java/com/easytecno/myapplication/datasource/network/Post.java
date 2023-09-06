@@ -1,6 +1,5 @@
 package com.easytecno.myapplication.datasource.network;
 
-import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
